@@ -1,0 +1,729 @@
+<title>SoGym Plan &amp; Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F5F6F8;
+    --bg-2: #FFFFFF;
+    --bg-3: #ECEFF3;
+    --line: #D9DEE6;
+    --text: #12161D;
+    --muted: #5B6675;
+    --coral: #E8452F;
+    --coral-soft: rgba(232, 69, 47, 0.10);
+    --mint: #0F9F76;
+    --mint-soft: rgba(15, 159, 118, 0.12);
+    --amber: #C2841A;
+    --amber-soft: rgba(194, 132, 26, 0.13);
+    --violet: #6D4FD1;
+    --violet-soft: rgba(109, 79, 209, 0.12);
+    --shadow: 0 1px 2px rgba(18, 22, 29, 0.06);
+    --display: "Bricolage Grotesque", "Archivo Black", "Helvetica Neue", Arial, sans-serif;
+    --body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0F1218; --bg-2: #171C24; --bg-3: #1F2632; --line: #2B3442;
+      --text: #F1F3F6; --muted: #98A3B3;
+      --coral: #FF6A57; --coral-soft: rgba(255, 106, 87, 0.14);
+      --mint: #4FE2B4; --mint-soft: rgba(79, 226, 180, 0.14);
+      --amber: #F2B657; --amber-soft: rgba(242, 182, 87, 0.14);
+      --violet: #A78BFA; --violet-soft: rgba(167, 139, 250, 0.16);
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F1218; --bg-2: #171C24; --bg-3: #1F2632; --line: #2B3442;
+    --text: #F1F3F6; --muted: #98A3B3;
+    --coral: #FF6A57; --coral-soft: rgba(255, 106, 87, 0.14);
+    --mint: #4FE2B4; --mint-soft: rgba(79, 226, 180, 0.14);
+    --amber: #F2B657; --amber-soft: rgba(242, 182, 87, 0.14);
+    --violet: #A78BFA; --violet-soft: rgba(167, 139, 250, 0.16);
+    --shadow: none;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+  a { color: var(--coral); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
+  .wrap { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; max-width: 1180px; margin: 0 auto; padding: 40px 28px 96px; }
+  @media (max-width: 900px) { .wrap { grid-template-columns: 1fr; gap: 24px; padding: 24px 18px 72px; } nav.toc { position: static; } }
+  nav.toc { position: sticky; top: 24px; align-self: start; font-size: 13px; }
+  nav.toc .brand { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
+  nav.toc .brand i { width: 26px; height: 26px; border-radius: 8px; background: var(--coral); display: inline-block; }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); }
+  nav.toc li a { display: block; padding: 5px 0 5px 12px; color: var(--muted); text-decoration: none; margin-left: -1px; border-left: 2px solid transparent; }
+  nav.toc li a:hover { color: var(--text); border-left-color: var(--coral); }
+  nav.toc .meta { margin-top: 18px; color: var(--muted); font-family: var(--mono); font-size: 11.5px; line-height: 1.6; }
+  main { max-width: 78ch; }
+  h1, h2, h3 { font-family: var(--display); letter-spacing: -0.025em; text-wrap: balance; line-height: 1.08; margin: 0; }
+  h1 { font-size: clamp(38px, 6vw, 60px); font-weight: 800; }
+  h2 { font-size: 28px; font-weight: 800; margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); }
+  h3 { font-size: 18px; font-weight: 700; margin-top: 28px; }
+  p { margin: 12px 0; max-width: 70ch; }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--coral); margin-bottom: 14px; }
+  .lede { font-size: 19px; color: var(--muted); max-width: 62ch; margin-top: 16px; }
+  .role-strip { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 8px; }
+  .role-strip span { font-family: var(--mono); font-size: 12px; padding: 5px 10px; border-radius: 999px; background: var(--bg-3); color: var(--muted); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 28px 0 8px; }
+  .stat { background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); }
+  .stat b { display: block; font-family: var(--display); font-size: 30px; font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; }
+  .stat small { display: block; margin-top: 6px; color: var(--muted); font-size: 12.5px; }
+  .stat.coral b { color: var(--coral); } .stat.mint b { color: var(--mint); } .stat.violet b { color: var(--violet); } .stat.amber b { color: var(--amber); }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 14px 0; }
+  .tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--bg-3); }
+  tr:last-child td { border-bottom: none; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .pill { display: inline-block; font-family: var(--mono); font-size: 11.5px; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .pill.done { background: var(--mint-soft); color: var(--mint); }
+  .pill.partial { background: var(--amber-soft); color: var(--amber); }
+  .pill.next { background: var(--violet-soft); color: var(--violet); }
+  .pill.hot { background: var(--coral-soft); color: var(--coral); }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin: 16px 0; }
+  .card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 16px; box-shadow: var(--shadow); }
+  .card h4 { margin: 0 0 6px; font-family: var(--display); font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+  .card p { margin: 6px 0 0; font-size: 14.5px; color: var(--muted); }
+  .card .tag { font-family: var(--mono); font-size: 11px; color: var(--coral); letter-spacing: 0.06em; text-transform: uppercase; }
+  .callout { border-left: 3px solid var(--coral); background: var(--coral-soft); padding: 12px 16px; border-radius: 0 12px 12px 0; margin: 18px 0; }
+  .callout.mint { border-left-color: var(--mint); background: var(--mint-soft); }
+  .callout.violet { border-left-color: var(--violet); background: var(--violet-soft); }
+  .callout p { margin: 4px 0; }
+  code { font-family: var(--mono); font-size: 0.9em; background: var(--bg-3); padding: 1px 6px; border-radius: 6px; }
+  pre { background: var(--bg-3); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; overflow-x: auto; font-family: var(--mono); font-size: 13px; line-height: 1.5; }
+  pre.mermaid { background: var(--bg-2); text-align: center; }
+  ul, ol { padding-left: 22px; } li { margin: 4px 0; }
+  .timeline { list-style: none; padding: 0; margin: 16px 0; border-left: 2px solid var(--line); }
+  .timeline li { position: relative; padding: 4px 0 18px 22px; margin: 0; }
+  .timeline li::before { content: ""; position: absolute; left: -7px; top: 11px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--coral); }
+  .timeline li.done::before { background: var(--mint); border-color: var(--mint); }
+  .timeline .when { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .timeline b { font-family: var(--display); font-size: 17px; font-weight: 700; display: block; margin: 2px 0 4px; }
+  .timeline p { margin: 0; font-size: 14.5px; color: var(--muted); }
+  .phone-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 18px 0; }
+  .phone { background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 12px; font-size: 13px; }
+  .phone .t { font-family: var(--display); font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .phone .k { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .kpi td:first-child { font-weight: 600; }
+  footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+  @media (prefers-reduced-motion: no-preference) { nav.toc li a { transition: color .15s, border-color .15s; } }
+</style>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Contents">
+    <div class="brand"><i aria-hidden="true"></i>SoGym</div>
+    <ol>
+      <li><a href="#pitch">The pitch</a></li>
+      <li><a href="#built">What was built</a></li>
+      <li><a href="#v02">v0.2 social graph</a></li>
+      <li><a href="#v03">v0.3 video and creators</a></li>
+      <li><a href="#v04">v0.4 leagues and streaks</a></li>
+      <li><a href="#v05">v0.5 user-first home</a></li>
+      <li><a href="#v06">v0.6 three tabs</a></li>
+      <li><a href="#v07">v0.7 Nocturne Me</a></li>
+      <li><a href="#v08">v0.8 Start button, Friends</a></li>
+      <li><a href="#v09">v0.9 Picked for you, Community</a></li>
+      <li><a href="#v010">v0.10 Look before you accept</a></li>
+      <li><a href="#stack">Why Flutter</a></li>
+      <li><a href="#arch">Architecture</a></li>
+      <li><a href="#ai">AI coach design</a></li>
+      <li><a href="#data">Open-source data</a></li>
+      <li><a href="#market">Market &amp; positioning</a></li>
+      <li><a href="#gtm">Go-to-market</a></li>
+      <li><a href="#money">Monetization</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#risks">Risks</a></li>
+      <li><a href="#kpis">KPIs</a></li>
+      <li><a href="#run">Run it</a></li>
+    </ol>
+    <div class="meta">v0.10.0 Nocturne<br>2026-09-05<br>Flutter 3.47 · Dart 3 · Supabase<br>iOS · Android · Web</div>
+  </nav>
+
+  <main>
+    <div class="eyebrow">Product plan &amp; build report</div>
+    <h1>Your training, your people, your app.</h1>
+    <p class="lede">SoGym opens on you: today's steps against your goal, your streak, what you have planned, and a line to an AI trainer that knows your body and your gear. Friends, routines, quests and step leagues are one tap away behind the + button, never in the way. Free with no limits for individuals; studios, clubs and trainers pay for the tools they use to run groups.</p>
+    <div class="role-strip"><span>CTO</span><span>CMO</span><span>Marketing</span><span>AI engineer</span></div>
+
+    <div class="stats">
+      <div class="stat coral"><b>1,443</b><small>exercises bundled offline, every one graded beginner, intermediate or advanced, with images, instructions and 69 yoga poses</small></div>
+      <div class="stat mint"><b>3</b><small>platforms from one codebase: iOS, Android, web demo</small></div>
+      <div class="stat violet"><b>2</b><small>coaches: Claude-powered with tools, and an offline fallback</small></div>
+      <div class="stat amber"><b>93</b><small>unit and widget tests green plus 5 Deno tests, analyzer clean, migrations verified on Postgres, still demoable with zero backend</small></div>
+    </div>
+
+    <h2 id="pitch">The pitch</h2>
+    <p><strong>The problem.</strong> Fitness apps are lonely spreadsheets. Strava solved social for runners and cyclists and became a 120M-user business; nobody has done it for the gym, mobility, and everyday movement together. Hevy and Strong log sets. Fitbod generates plans. Instagram has the hot workout videos but you cannot do anything with them. The social layer and the useful layer are in different apps.</p>
+    <p><strong>The insight.</strong> A workout post is only valuable if it is executable. In SoGym every post that contains a routine has a Try it button that copies it into your library and starts a set-by-set player. Recommendations are not likes, they are people saying "I did this, do it too". That makes the feed a distribution channel for routines, and routines are the retention engine.</p>
+    <p><strong>The wedge.</strong> Steps. Everyone with a phone already generates them, health apps already store them, and sharing a daily number is the lowest-friction social action in fitness. Steps get people posting on day one, before they have a routine to share.</p>
+    <div class="callout"><p><strong>One-liner for the store:</strong> "Your training, your streak, your people. Free, with an AI trainer that actually knows you."</p></div>
+
+    <h2 id="built">What was built (v0.1 MVP)</h2>
+    <p>Every item in the brief maps to a working screen. Status: <span class="pill done">shipped</span> works end-to-end on device, <span class="pill partial">demo</span> works with seeded or placeholder data where a backend is needed.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Brief</th><th>What ships</th><th>Where</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Connect with others, see and share workouts</td><td>Feed with follow, like, recommend, Try it, and a Share sheet for workouts, routines, diet tips, weird routines and steps. Six seeded members with real content.</td><td><code>features/feed</code></td><td><span class="pill done">shipped</span> hosted graph in v0.2, seeded demo without a backend</td></tr>
+        <tr><td>Connect health app, share daily steps</td><td>HealthKit on iOS and Health Connect on Android via the <code>health</code> plugin, read-only STEPS. Today ring, 7-day chart, one-tap share. Web falls back to demo data.</td><td><code>core/health_service.dart</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Show diet restrictions</td><td>Ten restriction tags chosen in onboarding, shown on profile, enforced by both coaches.</td><td><code>features/onboarding</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Build workout routines</td><td>Multi-day routine builder with exercise picker, sets/reps/rest steppers, delete, share, and a set-by-set workout player with rest timer.</td><td><code>features/routines</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Breathing exercises, not only gym</td><td>Five patterns (box, 4-7-8, coherent, power-up, physiological sigh) with an animated guide and share on completion.</td><td><code>features/breathe</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Use open-source gym sources</td><td>free-exercise-db bundled offline (876 exercises, 2-frame animation, filters by muscle, equipment, type) plus live browse of the wger community database.</td><td><code>features/explore</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>AI agent builds a custom plan from height, weight, goals, diet</td><td>Chat coach on Claude with two tools: <code>search_exercises</code> grounds every pick in the catalogue, <code>save_plan</code> returns a strict-schema plan that becomes a routine. Offline rule-based coach when no key.</td><td><code>core/ai_coach.dart</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Share and recommend routines and diet advice</td><td>Recommend action with counts, diet-tip post type, routine posts with inline preview.</td><td><code>features/feed</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Videos of hot workouts and weird routines on the feed</td><td>Inline muted looping video cards with a Hot filter and a Weird filter. Clips are placeholders until creator upload lands.</td><td><code>VideoCard</code></td><td><span class="pill partial">demo</span> placeholder clips</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="phone-row">
+      <div class="phone"><div class="t">Onboarding</div><div class="k">4 steps</div>Name, avatar, height, weight, target, age, goal, days/week, step goal, gear, diet.</div>
+      <div class="phone"><div class="t">Feed</div><div class="k">7 filters</div>For you, Hot, Weird, Routines, Diet, Steps, Following. Steps pill in the header.</div>
+      <div class="phone"><div class="t">Explore</div><div class="k">1,443 + live</div>Search, four filter rows (muscle, equipment, type, level), animated thumbnails, wger tab.</div>
+      <div class="phone"><div class="t">Coach</div><div class="k">tools loop</div>Profile-aware chat, quick prompts, plan cards that save and share.</div>
+      <div class="phone"><div class="t">Breathe</div><div class="k">5 patterns</div>Expanding circle, phase countdown, cycle count.</div>
+      <div class="phone"><div class="t">Me</div><div class="k">stats</div>BMI, target, diet, gear, routines, following, settings.</div>
+    </div>
+
+
+    <h2 id="v02">v0.2: the real social graph</h2>
+    <p>Built the same day, straight from the roadmap. Nothing in the UI knows which backend it is talking to: a <code>SocialBackend</code> interface has a local implementation (the seeded community, persisted on device) and a Supabase implementation, and providers pick one based on whether the build has a project configured and the user is signed in. Signed out, the app is exactly the v0.1 demo.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Roadmap item</th><th>What ships</th><th>Where</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Supabase auth (Apple, Google)</td><td>OAuth with PKCE through the system browser, deep link <code>io.sogym://login-callback</code> registered on both platforms, email magic link as the fallback. A database trigger creates the profile row on sign-up and resolves handle collisions. Signing in adopts the on-device profile and routines under the account id.</td><td><code>core/backend.dart</code>, <code>features/auth</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Postgres for users, follows, posts, routines, likes, recommends, comments</td><td>Twelve tables with row-level security: anyone signed in reads, only the owner writes, counters and notifications are trigger-owned so clients cannot forge them. Verified against a local Postgres with a shim for the auth schema: forged posts, self-granted Plus and quota calls from app roles are all rejected.</td><td><code>supabase/migrations</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Comments</td><td>Thread sheet on every post, seeded threads in the demo, live counts.</td><td><code>features/feed/comments_sheet.dart</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Coach moves to an edge function with streaming</td><td>Deno function holds the Anthropic key, validates the caller's JWT, checks the weekly quota (5 free, unlimited for Plus) through a service-role-only SQL function, runs the same two tools, streams text deltas and the saved routine as server-sent events, logs every tool call and reply to <code>coach_events</code> for evals, and opts into server-side refusal fallbacks. The Flutter client renders the reply as it streams.</td><td><code>supabase/functions/coach</code>, <code>core/remote_coach.dart</code></td><td><span class="pill done">shipped</span> deploy pending</td></tr>
+        <tr><td>Notifications for Try it and follows</td><td>Triggers write a notification on follow, like, recommend, comment and Try it. Activity screen with unread badge on the feed. A <code>push</code> edge function relays inserts to FCM HTTP v1 (covers APNs) from a database webhook and prunes dead tokens.</td><td><code>features/notifications</code>, <code>supabase/functions/push</code></td><td><span class="pill partial">partial</span> device token registration needs the Firebase client</td></tr>
+        <tr><td>Realtime</td><td>Open feeds refresh when new posts or notifications land, via Postgres changes on a per-user channel.</td><td><code>core/social_backend.dart</code></td><td><span class="pill done">shipped</span></td></tr>
+      </tbody>
+    </table></div>
+    <pre class="mermaid">
+flowchart LR
+  UI["Screens"] --> P["Riverpod providers"]
+  P --> SB{"SocialBackend"}
+  SB -->|"signed out"| L["LocalSocialBackend<br/>seed + JSON on device"]
+  SB -->|"signed in"| S["SupabaseSocialBackend<br/>PostgREST + Realtime"]
+  S --> PG["Postgres<br/>RLS · triggers · counters"]
+  P --> C{"Coach"}
+  C -->|"signed in"| EF["Edge function coach<br/>JWT · quota · SSE · event log"]
+  C -->|"user key"| CC["ClaudeCoach on device"]
+  C -->|"no key"| LC["LocalCoach"]
+  EF --> API["Anthropic Messages API<br/>claude-opus-5 · tools · caching · fallbacks"]
+  PG -->|"webhook on notifications"| PUSH["Edge function push<br/>FCM HTTP v1"]
+    </pre>
+    <h3>Decisions worth knowing</h3>
+    <ul>
+      <li><strong>Client-generated UUIDs.</strong> Routines and posts get a v4 id on the device, so the same row exists locally and hosted and a sign-in never re-keys content. Legacy local ids are migrated on first pull.</li>
+      <li><strong>Counters are never written by clients.</strong> Insert policies require zero counts; triggers maintain <code>like_count</code>, <code>comment_count</code>, <code>try_count</code> and follower counts.</li>
+      <li><strong>Quota lives in SQL.</strong> <code>consume_coach_message</code> increments atomically, rolls back when blocked, and only the service role can execute it. Free messages per week is a function secret so it can change without a deploy.</li>
+      <li><strong>Prompt and tools are shared verbatim</strong> between the on-device coach and the edge function, so one eval set covers both.</li>
+      <li><strong>Handle collisions</strong> are resolved server-side; if the local handle is taken the app keeps the server's choice rather than failing sign-in.</li>
+    </ul>
+    <div class="callout"><p><strong>Not done in this pass:</strong> the project itself is not provisioned (needs a Supabase account and Apple/Google OAuth credentials), and the Firebase client for push tokens is not wired into the Flutter app. Both are listed under Run it.</p></div>
+
+    <h2 id="v03">v0.3: video and creators</h2>
+    <p>The third pass, again straight from the roadmap. Bytes never touch our servers: a <code>video</code> edge function hands the phone a one-time direct-upload ticket from Cloudflare Stream (default) or Mux, the provider transcodes, and its signed webhook flips the row to ready. The feed card shows processing, ready and failed states by itself. Uploads are gated to approved creators, every ready clip is screened by Claude before anyone else sees it, and anything a member reports lands in a moderation queue.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Roadmap item</th><th>What ships</th><th>Where</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Upload from camera roll, 60-second cap</td><td>Gallery picker, the clip is measured on device with the platform player before any bytes move; over the cap it is refused with a trim hint. The cap is enforced three times: on device, in the function (<code>duration_sec</code>), and by the provider (Cloudflare <code>maxDurationSeconds</code>; Mux assets over the cap are deleted from the webhook). Progress bar in the share sheet.</td><td><code>core/video_service.dart</code>, <code>features/video</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Transcode and stream via Mux or Cloudflare Stream</td><td>Provider adapter with both implementations behind one interface: direct-upload ticket (form POST for Cloudflare, PUT for Mux), HMAC-SHA256 webhook verification with a five-minute replay window, playback and thumbnail URLs, three stills per clip. Picked by the <code>VIDEO_PROVIDER</code> secret. HLS plays through the existing player.</td><td><code>supabase/functions/_shared/video_provider.ts</code>, <code>functions/video</code></td><td><span class="pill done">shipped</span> needs provider keys</td></tr>
+        <tr><td>Exercise tagging so a video can carry a routine</td><td>Type-ahead over the 876-exercise catalogue in the share sheet, up to eight tags per clip stored as <code>exercise_ids</code>; chips under the player open the exercise page. A routine can be attached to a video post, so the Try it button works on clips.</td><td><code>features/video/video_compose.dart</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Creator profiles and analytics</td><td>Public profile for every member at <code>/u/:id</code> (tap any name), creator badge and ring, videos-first post list. Creator studio: application flow, stat tiles, seven-day views bar, per-post table with views, likes and tries. Stats come from one SQL function that only the creator or a moderator may call; views are counted once per viewer per day through <code>record_view()</code>.</td><td><code>features/creator</code>, <code>creator_stats()</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Report and moderation queue</td><td>Report sheet on posts, comments and members with eight reasons, one report per member per target. Three open reports auto-hide a post; a hidden post stays visible to its author with a banner. Moderators get a queue grouped by target with dismiss, hide, restore, warn, remove and suspend, all through one <code>moderate()</code> function that logs the action and notifies the author. Automated screening: Claude looks at three stills through one strict tool call; a flagged clip files an <code>automated</code> report and hides the post for a human decision. No key, no screening.</td><td><code>features/feed/report_sheet.dart</code>, <code>features/moderation</code>, <code>_shared/screen.ts</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Creator gating</td><td>Profiles carry <code>creator</code>, <code>moderator</code> and <code>banned</code> flags that owners cannot edit (policy plus trigger). Members apply from the studio; <code>approve_creator()</code> flips the flag and notifies. <code>VIDEO_UPLOADS_OPEN=1</code> opens uploads to everyone later without a deploy. Banned accounts read but cannot post, comment, report or upload.</td><td><code>supabase/migrations/20260904150000_video_creators.sql</code></td><td><span class="pill done">shipped</span></td></tr>
+      </tbody>
+    </table></div>
+    <pre class="mermaid">
+sequenceDiagram
+  participant App
+  participant Fn as Edge function video
+  participant CF as Cloudflare Stream / Mux
+  participant DB as Postgres
+  participant AI as Claude
+  App->>Fn: POST /create {duration, exercise_ids}
+  Fn->>DB: insert videos (processing)
+  Fn->>CF: direct_upload (max 60 s)
+  Fn-->>App: {video_id, upload_url, method}
+  App->>CF: file bytes (form POST or PUT)
+  App->>DB: insert post {video_id}
+  CF-->>Fn: webhook video.ready (signed)
+  Fn->>AI: screen 3 stills (strict tool)
+  AI-->>Fn: {safe, categories, note}
+  Fn->>DB: update videos ready + screen; report if flagged
+  DB-->>App: realtime: card flips to playable
+</pre>
+    <h3>Decisions worth knowing</h3>
+    <ul>
+      <li><strong>Direct upload, not proxied.</strong> The phone talks to the video host with a single-use ticket; the function never sees the bytes, so a 200 MB clip costs us one small request.</li>
+      <li><strong>Server columns are protected by a trusted-write flag.</strong> Clients may edit post text; a before-update trigger resets counters and moderation columns unless the writer is a moderator or a trusted SQL function that raised a transaction-local flag. The v0.2 like counter was re-issued to use it. Verified on a local Postgres: a plain user's like still counts, their attempt to un-hide a post is silently reverted.</li>
+      <li><strong>Reports are polymorphic</strong> (post, comment, profile) with a partial unique index, so the automated screener can file without a reporter and members cannot pile on twice.</li>
+      <li><strong>Screening is advisory.</strong> Claude never deletes; it hides and files a report. Bare torsos in a gym context are explicitly fine, and ambiguous stills are marked safe so the queue does not fill with false flags.</li>
+      <li><strong>The demo walks the whole flow.</strong> Without a backend the uploader is a stand-in that turns a picked clip into a placeholder video that becomes ready after six seconds; applying as a creator is instant; everyone is a moderator; two reports are seeded so the queue is not empty.</li>
+    </ul>
+    <div class="callout"><p><strong>Not done in this pass:</strong> no Cloudflare or Mux account is wired (keys go in as function secrets), the webhook URL must be registered with the provider once, and upload progress is coarse because the Dart http client does not stream request bodies. Also outstanding from v0.2: project provisioning, OAuth credentials, Firebase client.</p></div>
+
+    <h2 id="v04">v0.4: steps leagues, streaks and badges</h2>
+    <p>The steps wedge gets its game. Every time the app opens it reads the last week from HealthKit or Health Connect and pushes it to <code>step_days</code>; leagues, streaks and badges are all computed from that one table plus the workout log the player now writes when a session ends.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Roadmap item</th><th>What ships</th><th>Where</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Weekly leagues</td><td>Create a league (name, emoji), get a six-character invite code, share it, join by code, up to 50 members. Standings Monday to Sunday with a seven-day strip per member, my row highlighted, gap to the leader. Members see each other's daily counts and nobody else does (RLS through league membership). Monday 00:05 UTC a pg_cron job runs <code>close_week()</code>: ranks recorded, every member notified with their place, podium badges awarded. Idempotent, and moderators can run it by hand.</td><td><code>features/leagues</code>, <code>create_league()</code>, <code>join_league()</code>, <code>league_standings()</code>, <code>close_week()</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Background health sync</td><td>Sync on every read: app launch, pull to refresh, and a lifecycle observer that re-reads the health store whenever the app returns to the foreground. <code>sync_steps()</code> upserts only changed days, then evaluates badges and returns fresh streaks in the same call. The demo source syncs its generated days the same way.</td><td><code>core/providers.dart</code> (ActivityNotifier), <code>main.dart</code></td><td><span class="pill partial">partial</span> foreground only; true background needs WorkManager and BGTaskScheduler, see below</td></tr>
+        <tr><td>Streaks</td><td>Step streak (consecutive goal days; today in progress does not break it), best-ever streak, and a weekly workout streak (consecutive weeks hitting your days-per-week). Same maths in SQL and in Dart so the demo matches the hosted graph; both are unit-tested.</td><td><code>step_streak()</code>, <code>workout_streak()</code>, <code>core/badge_rules.dart</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Badges</td><td>Twelve-badge catalogue in three tiers: first rep, ten and fifty workouts, seven and thirty goal days, 100k week, first post, first clip, ten tries received, league winner, podium, early bird. One <code>award_badges()</code> function runs after every sync, logged workout and league close; new badges notify and toast. Shelf on the profile with the unearned ones greyed out.</td><td><code>badges</code>, <code>user_badges</code>, <code>features/profile/badges_row.dart</code></td><td><span class="pill done">shipped</span></td></tr>
+        <tr><td>Watch complications</td><td>The data contract is ready: <code>my_league_ranks()</code> returns rank, field size, steps, leader's steps and days left per league in one small JSON call, shown on the Steps screen and the Me tab today. The watchOS and Wear OS targets themselves are native code this pass could not build or test on this machine.</td><td><code>my_league_ranks()</code></td><td><span class="pill partial">deferred</span> API only</td></tr>
+      </tbody>
+    </table></div>
+    <pre class="mermaid">
+flowchart LR
+  H["HealthKit / Health Connect"] -->|"on open, on resume, on refresh"| S["StepsNotifier"]
+  S --> A["ActivityNotifier.syncSteps"]
+  P["Workout player finish"] --> A2["ActivityNotifier.logWorkout"]
+  A --> RPC["sync_steps() / log_workout()"]
+  A2 --> RPC
+  RPC --> T["step_days · workout_logs"]
+  RPC --> B["award_badges()"]
+  B --> N["notifications: badge"]
+  T --> L["league_standings()"]
+  CRON["pg_cron · Monday 00:05"] --> C["close_week()"]
+  C --> R["league_results"]
+  C --> N2["notifications: league"]
+  C --> B
+    </pre>
+    <h3>Decisions worth knowing</h3>
+    <ul>
+      <li><strong>One table feeds everything.</strong> Leagues, streaks and badges all read <code>step_days</code>; there is no separate leaderboard state to drift. Standings are computed on read, results are only materialised at the weekly close.</li>
+      <li><strong>Today never breaks a streak.</strong> Both the SQL and Dart versions skip an in-progress day, so someone at 4,000 steps at lunch still sees their streak.</li>
+      <li><strong>Privacy follows the league.</strong> Daily counts are only readable by people who share a league with you; outside a league a step post is still the only way your number leaves the device.</li>
+      <li><strong>Badges are diffed, never re-awarded.</strong> The award function computes what you qualify for and inserts what is new, so it is safe to call after every sync.</li>
+      <li><strong>Demo parity.</strong> Two seeded leagues (one you are in, one to join with code IRON77), seeded members with deterministic daily steps, and the same badge rules in Dart, so the whole loop can be walked without a backend.</li>
+    </ul>
+    <div class="callout"><p><strong>Not done in this pass:</strong> true background sync while the app is closed (WorkManager on Android, BGTaskScheduler on iOS) and the watch complications, both native targets that cannot be built or tested on this machine today. The sync entry point and the rank API they need are in place.</p></div>
+
+    <h2 id="v05">v0.5: the app is about the user, not the league</h2>
+    <p>Direction change. Leagues, feed and creators were the first thing on screen; now the person is. The front door is your own page: photo, today's steps against your goal, your step streak, what is scheduled next, your live quests, and a line straight to the AI trainer. Everything social moved behind a tab or the <strong>+</strong> button, where it is one tap away but never in the way. SoGym is free with no limits for individuals; studios, clubs and personal trainers are the paying side.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>What</th><th>What ships</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td>Home page (first tab)</td><td>Profile photo (gallery or camera, resized to 400px and kept on-device as base64, tap to change or go back to the emoji), greeting, goal chips, step ring with goal, remaining and streak, Connect Health inline, pull to refresh, This week strip, badges, and a short More list. Old profile detail page kept at <code>/profile</code>.</td><td><code>features/home/home_screen.dart</code></td></tr>
+        <tr><td>Talk to AI trainer</td><td>Card on the home page with a text box and four quick prompts; sending jumps to the Trainer tab and streams the reply. Same coach modes as before: hosted, on-device Claude, or offline rules.</td><td><code>home_screen.dart</code> · <code>coachProvider</code></td></tr>
+        <tr><td>+ · Schedule new workout</td><td>Pick any saved or community routine, the day within it, date and time (Today / Tomorrow shortcuts), an optional note. Shows under Up next with a Start button that opens the player on that day; finishing the workout ticks it off. Swipe to remove, long-press to reschedule on the full schedule page.</td><td><code>features/home/plus_menu.dart</code> · <code>schedule_screen.dart</code> · <code>scheduleProvider</code></td></tr>
+        <tr><td>+ · Join a league nearby</td><td>Public leagues with room left, nearest first, with area label and member count; Join in one tap, or paste a six-letter code. Leagues gained <code>is_public</code> and <code>area</code>; owners flag them with <code>set_league_public()</code>, <code>nearby_leagues()</code> lists them. Demo seeds four leagues around Tel Aviv with fixed distances.</td><td><code>plus_menu.dart</code> · migration <code>20260904210000</code></td></tr>
+        <tr><td>+ · Change configuration</td><td>Step goal and workouts-per-week sliders that save in place, then links to the full profile form and to Settings (trainer, account, data).</td><td><code>plus_menu.dart</code> · <code>settings_screen.dart</code></td></tr>
+        <tr><td>+ · CoG together</td><td>Common Goal: pick one friend (people you follow first), pick a preset quest (100k steps together in a week, 50k weekend, 6 or 10 workouts between you), send the invite. Both counters add up on one bar; nobody is ranked. Invite text with a <code>sogym://quest/</code> link lands on the clipboard; demo friends accept instantly and walk their seeded steps.</td><td><code>plus_menu.dart</code> · <code>questsProvider</code> · <code>questProgressProvider</code></td></tr>
+        <tr><td>My people</td><td>A strip of the people I follow with what they walked today, straight from the home page, plus a CoG chip that opens the quest sheet with them. Tapping one opens their profile.</td><td><code>home_screen.dart</code> · <code>friendStepsProvider</code></td></tr>
+        <tr><td>Recent training</td><td>My last three finished sessions with day, time ago, duration and sets, read back from <code>workout_logs</code> (or the on-device log in the demo).</td><td><code>home_screen.dart</code> · <code>recentWorkoutsProvider</code></td></tr>
+        <tr><td>Tabs</td><td>Me · Explore · Trainer · Feed · Breathe. Feed moved from first to fourth; <code>/me</code> redirects to <code>/home</code>.</td><td><code>app/router.dart</code></td></tr>
+      </tbody>
+    </table></div>
+    <h3>Decisions worth knowing</h3>
+    <ul>
+      <li><strong>The phone owns the plan.</strong> Schedule and quests are stored on-device. Nothing about what a person intends to do leaves the phone unless they post it. Hosted sync of the schedule is a later, opt-in step.</li>
+      <li><strong>Free means free.</strong> No message caps, no locked screens for individuals. Revenue comes from group tools for studios, clubs and trainers (see Monetization), so the product never has a reason to nag a person who just wants to walk more.</li>
+      <li><strong>Nearby without location.</strong> The app does not ask for GPS. Hosted "nearby" ranks public leagues by members and recency and shows the owner's area label; a coarse-location opt-in can refine that later without a schema change.</li>
+      <li><strong>Photos stay small and local.</strong> 400px JPEG at quality 78 is about 20 to 40 KB, fine for prefs and for web localStorage. The hosted profile keeps the emoji until an avatar bucket exists.</li>
+      <li><strong>Everything on the page is mine.</strong> The sections read as my plan, my people, my week, my training. Other people appear as a strip of friends and a shared quest bar, never as a ranked list I have to beat.</li>
+      <li><strong>CoG is cooperative by design.</strong> One friend, one bar, summed. It is the anti-leaderboard for people who bounce off competition.</li>
+    </ul>
+
+    <h2 id="v06">v0.6: three tabs, and a library worth browsing</h2>
+    <p>Five tabs was four too many. The app is now <strong>Me · Friends · Build</strong>, and nothing else competes for the bottom bar. Coach, steps, leagues, discover, the exercise library and breathing are all still there, one tap inside the tab they belong to. Building a routine starts with one question — what is this for? — and the answer picks the exercises, the sets, the reps and the rest.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>What</th><th>What ships</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td>Me</td><td>Unchanged front door minus the clutter: photo, step ring, streak, AI trainer, my plan, quests, my week, badges, recent training. The tail is three tiles instead of seven — steps, leagues, and one Profile &amp; settings door that holds the public profile, creator studio, moderation queue, account and credits.</td><td><code>features/home/home_screen.dart</code></td></tr>
+        <tr><td>Friends</td><td>Only the people I follow. A strip of them with what they walked today, then two segments: <strong>Activity</strong> (their posts) and <strong>Their routines</strong> (every routine they shared, with Look inside and Copy to mine). Share button posts mine back. Discover — everyone else, with the seven old feed filters — moved behind a person-add icon.</td><td><code>features/friends/friends_screen.dart</code></td></tr>
+        <tr><td>Build</td><td>Eight goal cards: Build muscle, Get stronger, Cardio, Core, Flexibility, Mobility &amp; warm-up, Yoga, Breathing. Picking one opens exercises that fit it, ranked (compounds first for strength, real poses first for yoga), filtered by body part and by equipment group, with an "only my equipment" switch on by default. Tap to add, name it, and the routine is created with rep ranges and rest that match the goal. Breathing skips sets entirely and opens the guided patterns.</td><td><code>features/build/</code>, <code>TrainingGoal</code>, <code>ExerciseRepository.forGoal</code></td></tr>
+        <tr><td>Sharing routines</td><td>A friend's routine copies into my library in one tap and tells the author, the v0.2 "Try it" path reused where people actually look for it.</td><td><code>friends_screen.dart</code> · <code>RoutinesNotifier.clone</code></td></tr>
+        <tr><td>Bigger catalogue</td><td>876 → <strong>1,407</strong> exercises, merged at build time from three sources by <code>tool/build_catalogue.py</code>. Yoga went from nothing to 69 poses, cardio from 14 to 27, stretching and mobility from 123 to 175. Muscle names and equipment are normalised into one vocabulary so filters work across all three sources.</td><td><code>tool/build_catalogue.py</code>, <code>docs/CREDITS.md</code></td></tr>
+      </tbody>
+    </table></div>
+    <h3>Where the exercises come from</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Source</th><th>Kept</th><th>Licence</th><th>Obligation</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://github.com/yuhonas/free-exercise-db">free-exercise-db</a></td><td class="num">876</td><td>Unlicense</td><td>None</td></tr>
+        <tr><td><a href="https://github.com/RepDB/exercise-dataset">RepDB free tier</a></td><td class="num">484</td><td>RepDB Free Tier v1.0</td><td>Visible credit; commercial in-app use allowed; <strong>may not be redistributed as a dataset</strong></td></tr>
+        <tr><td><a href="https://github.com/alexcumplido/yoga-api">yoga-api</a></td><td class="num">47</td><td>MIT; images CC0 + Flaticon</td><td>Credit the author plus Flaticon's monkik and dDara</td></tr>
+        <tr><td>SoGym editorial (v0.9)</td><td class="num">36</td><td>Ours</td><td>Nothing owed. Written to fill the beginner and advanced ends of the ladder; no photos yet.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Eight further sources were checked and rejected — wger's per-record share-alike, everkinetic's gym-only CC-BY-SA, a 1,324-item set whose media is licensed to its author alone, and three richer yoga datasets with no licence at all. The reasoning is written down in <code>docs/CREDITS.md</code> so nobody re-litigates it.</p>
+    <h3>Decisions worth knowing</h3>
+    <ul>
+      <li><strong>The goal is the only question.</strong> Nobody should need to know what a hypertrophy rep range is to build a routine. Picking "Build muscle" sets 4×10 with 90 seconds rest; "Get stronger" sets 5×5 with 150; yoga and flexibility switch to holds. The user can still edit everything afterwards.</li>
+      <li><strong>The catalogue is generated, not committed by hand.</strong> RepDB's licence forbids redistributing its rows as a dataset, so the merge lives in a script. If the repo ever goes public, gitignore the JSON and run the script at build time. That decision is written down, not assumed.</li>
+      <li><strong>One muscle vocabulary.</strong> RepDB names muscles anatomically (<code>rectus_abdominis</code>, <code>latissimus_dorsi</code>); the app speaks free-exercise-db (<code>abdominals</code>, <code>lats</code>). The build script normalises on the way in, so a body-part filter works across all three sources instead of silently missing 500 exercises.</li>
+      <li><strong>Sixty kit names, ten chips.</strong> The merged catalogue names about sixty pieces of equipment. They collapse into ten groups (No kit, Dumbbell, Barbell, Machine, Cardio kit…) so the filter row stays one line, and every chip offered is one that actually has exercises behind it for that goal.</li>
+      <li><strong>Breathing is hand-authored on purpose.</strong> No open breathwork dataset exists anywhere. The patterns are written from public technique descriptions, which are facts rather than anyone's copyright, and they carry exactly the inhale/hold/exhale/hold/cycles fields the UI needs.</li>
+    </ul>
+    <div class="callout"><p><strong>Not done in this pass:</strong> 115 of the merged exercises have no image (mostly RepDB entries whose illustrations are premium), the yoga poses have no muscle tags so they only answer to the Yoga and Flexibility goals rather than to a body part, and the routine a goal creates is a single day — multi-day splits still come from the editor or the AI trainer.</p></div>
+
+    <h2 id="v07">v0.7: the Nocturne design system, starting with Me</h2>
+    <p>A high-fidelity design handoff landed (<code>design_handoff_nocturne_fit/</code>): a dark, low-chroma interface on one blurple accent, Inter at 400/500/600, Phosphor icons, a dense 0.7x spacing scale, and elevation expressed as a hairline rather than a shadow. The handoff ships an HTML prototype and asks for the values to be moved into the app's own theme layer. That layer is <code>lib/app/nocturne.dart</code>, and the Me screen is rebuilt against it.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Piece</th><th>What ships</th></tr></thead>
+      <tbody>
+        <tr><td>Token layer</td><td><code>Noc</code> carries colour, spacing, radius, elevation and the full type ramp; <code>NocCard</code>, <code>NocButton</code>, <code>NocIconButton</code>, <code>NocTag</code>, <code>NocToggle</code>, <code>NocBar</code>, <code>NocRing</code>, <code>NocPulse</code>, <code>NocIn</code> and <code>nocToast</code> are the shared primitives the rest of the screens will reuse.</td></tr>
+        <tr><td>Me screen</td><td>All nine sections in the handoff's order, which it calls deliberate: header, streak card with seven day cells, stat row, collapsible goals, the week's shape, the plan, the follow feed, nutrition, account list. A widget test asserts that order by vertical position so a future edit cannot quietly reshuffle it.</td></tr>
+        <tr><td>Goals</td><td>Two goals derive from the profile and recompute every build (train N times a week, walk N steps a day); the rest come from a "Set a goal" dialog and persist on device, each with a progress editor.</td></tr>
+        <tr><td>Nutrition</td><td>A daily food log with a calorie target computed from height, weight, age, goal and training days (Mifflin-St Jeor with the sex constant averaged, since onboarding does not ask). On device only.</td></tr>
+        <tr><td>Type and icons</td><td>Inter vendored as its variable file (SIL OFL) and Phosphor regular vendored as a font (MIT), both under <code>assets/fonts/</code>.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Decisions worth knowing</h3>
+    <ul>
+      <li><strong>Two metrics were substituted, not faked.</strong> The handoff's stat row is Volume / Steps / Resting HR. Steps are real. We do not record load per set, and reading heart rate would widen the Health permission past the steps-only promise the app makes in Settings, so the ring shows the week against the user's own session target and the third card shows the sets behind it. Same shapes, numbers the app can stand behind. The follow feed's Volume / Time / PR strip became the three counts each post actually carries, with the standout one in accent where PR sat.</li>
+      <li><strong>Phosphor's Flutter package does not build on Flutter 3.47</strong> — <code>PhosphorIconData extends IconData</code>, and <code>IconData</code> is now final. The font ships inside that package under MIT, so it is vendored directly and the glyphs the design uses are declared as codepoints in <code>Nx</code>. Tree-shaking cuts the shipped font to 8 KB.</li>
+      <li><strong>Inter needs its weight axis set.</strong> It is one variable file, so <code>FontWeight.w500</code> alone renders at 400; every token style carries a matching <code>fontVariations</code> entry.</li>
+      <li><strong>Navigation stayed ours, until v0.8.</strong> The handoff's bar is Me / Start / Community with a raised middle button; v0.7 kept three tabs — Me / Friends / Build — and took only the handoff's styling: 21px icon over a 9.5px label, active <code>#e9e9ed</code>, inactive <code>#75798c</code>, hairline top border. v0.8 adopted the raised middle button after all; see below.</li>
+    </ul>
+    <h3>Build: the drag timeline</h3>
+    <p>Step 1 is the handoff's six themes, each one a real filter over the catalogue so the count on a card is the number of exercises actually behind it: Bodyweight 186, Gym 742, Flexibility 244, Handstand 51, Calisthenics 79, Core 204. The theme also carries how its work is done, so a session built from it arrives with sets, reps and rest already set rather than blank.</p>
+    <p>Step 2 is the timeline. The card is the drop target and its ring goes accent while a drag is over it. Library tiles are both draggable and tappable. Each exercise contributes a segment whose width is its share of the session, estimated as sets times rest plus about forty seconds of work per set. Rows carry an index, the exercise media, a remove control and a drag handle; dragging one over another splices it to that position and the moving row's ring goes accent. Step 3 names it, shows theme, exercise count and duration, and offers two toggles before saving.</p>
+    <p>Saving is real: the routine goes into the library, onto Saturday in the plan, and — when the share toggle is on — out as a routine post the user's followers can copy. The invite toggle starts a shared quest with a followed friend.</p>
+    <p>The <strong>exercise media placeholder is filled in</strong>. The handoff's striped grey tiles are where looping media goes; this app has images for most of the catalogue, so tiles show the real exercise and fall back to the striped placeholder only where an image is missing.</p>
+    <h3>Decisions worth knowing</h3>
+    <ul>
+      <li><strong>The Start sheet became the + menu</strong>, and in v0.8 the raised middle button the handoff drew it from. Its five sections are intact and in order: resume, your routines, recommended, shared by friends, create new. The old four-option menu is gone.</li>
+      <li><strong>The staggered row entry was dropped, the ring feedback kept.</strong> Driving a 60ms-per-index entry animation from inside a drag target left rows stuck part-way through their fade. The interaction the design depends on is the accent ring on the drop target and on the row being moved, and that is intact.</li>
+      <li><strong>The reorder is hand-rolled, not a ReorderableListView.</strong> Nesting a second scrollable inside the page's list left every row past the first unpainted. A plain column of drag targets also matches the handoff's own semantics more directly.</li>
+      <li><strong>The AI draft is grounded, not decorative.</strong> It picks from the theme's own library against the athlete's equipment, spreads the block across muscle groups so it is not five variations of one movement, and answers the selected prompt: a short session returns four exercises, "go heavy" returns compounds only, "easy on my joints" returns bodyweight and stretching only. Swapping in the hosted coach is a change to one function.</li>
+      <li><strong>Legacy UI is deleted, not left dormant.</strong> The goal-first Build screen, the routines list, the routine editor, the routine detail page and the old profile page are gone, along with the training-goal, body-part and equipment-group models that only served them.</li>
+    </ul>
+    <div class="callout"><p><strong>Next in this pass:</strong> the handoff's Community, AI coach, exercise library and coach dashboard screens are not built, and the in-session player — the one flow the prototype stubs to a toast — is being designed. Friends moved to Nocturne in v0.8.</p></div>
+
+
+    <h2 id="v08">v0.8: the Start button, and Friends where it belongs</h2>
+    <p>Two changes, one idea: the thing you do most should be the biggest target on the screen, and the people you train with should be a place you visit, not a tab you live in.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>What</th><th>What ships</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td>The Start button</td><td>The handoff's raised middle button, adopted at last: a 58px accent disc with a play triangle, straddling the hairline of the bar with an accent bloom under it, pressing to 0.94. It is not a tab and never takes the selection — it opens the Start sheet from anywhere. The Me screen's floating button is gone. (v0.9 finished the bar: <strong>Me · ▶ Start · Community</strong>.)</td><td><code>app/router.dart</code></td></tr>
+        <tr><td>Friends at the top of Me</td><td>Friends left the bottom bar for the header of Me: a pill holding the faces of up to three people you follow and a person-add icon, which turns accent while an invite is live. Tapping it pushes the Friends page. Old <code>/friends</code> deep links still work, and the page's back arrow falls back to Me when there is nothing to pop.</td><td><code>features/home/me_screen.dart</code></td></tr>
+        <tr><td>Invite first, feed second</td><td>The Friends page opens on <strong>Invite to a training</strong>: pick who (faces, multi-select), pick when (a session already on your plan, or New session, which opens the scheduler and selects whatever it creates), send. Sessions with somebody on them get a <em>Training together</em> list underneath, each with a copy-the-invite-again control. The feed — their activity, or their routines with Look inside and Copy to mine — sits below all of it.</td><td><code>features/friends/friends_screen.dart</code></td></tr>
+        <tr><td>Training invites</td><td>An invite is not a second calendar: it is guests on a session you already planned. <code>TrainingGuest</code> (id, name, emoji, accepted) hangs off <code>ScheduledWorkout</code>, persists with it, and shows as faces on the plan row on Me. Demo friends accept on the spot, the same courtesy CoG quests get; hosted friends accept from the invite text, which carries the routine, the day, the time and a <code>sogym://training/&lt;id&gt;</code> link.</td><td><code>core/models.dart</code> · <code>ScheduleNotifier.invite</code></td></tr>
+        <tr><td>Nocturne scheduler</td><td>The schedule sheet was the last coral surface in the new flow, so it moved to Nocturne: routine and day as chips, date and time as buttons, quick Today / Tomorrow / In 2 days, a sunken note field. It now returns the session it created so the invite card can select it.</td><td><code>features/home/plus_menu.dart</code></td></tr>
+      </tbody>
+    </table></div>
+    <h3>Decisions worth knowing</h3>
+    <ul>
+      <li><strong>Friends earned a page, not a tab.</strong> Three tabs meant the bottom bar carried a destination people opened a few times a week and no button for the thing they open every session. Moving Friends into the header freed the middle slot for Start and put the invite one tap from the plan it schedules.</li>
+      <li><strong>CanvasKit falls back one codepoint at a time.</strong> The seed friends wear ZWJ emoji (🧘‍♀️, 🏋️), which rendered as two tofu boxes each on web. <code>NocFace</code> draws the base glyph — everything from the first zero-width joiner on, plus variation selectors, is dropped — so the same person shows up on every platform.</li>
+      <li><strong>Disabled buttons look disabled.</strong> <code>NocButton</code> had no disabled state, so "Pick a friend" and "Invite Dario" were indistinguishable. It now carries the handoff's own rule, <code>.btn:disabled { opacity: .45 }</code>.</li>
+      <li><strong>Dead routes were swept.</strong> Five screens still pushed <code>/routines/&lt;id&gt;</code>, a route deleted with the old routine detail page in v0.7; they now open the workout player. The Share button on the plan opens the compose sheet directly instead of pointing at a Friends tab that no longer exists.</li>
+    </ul>
+
+
+    <h2 id="v09">v0.9: a session picked for you, and the Community tab</h2>
+    <p>Two halves of the same idea. The Start button stops being a menu and starts being an answer — here is your session, here is why — and the tab it displaced becomes the place the studios and coaches live, which is where the money is.</p>
+    <h3>Picked for you</h3>
+    <p>The first thing under Start is now a session assembled for the athlete in front of it. Nothing about it is generated prose: every exercise comes out of the 1,443-exercise catalogue through four hard filters, and the chips on the card name them, because a recommendation nobody can interrogate is a horoscope.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>What the profile says</th><th>What it changes</th></tr></thead>
+      <tbody>
+        <tr><td>Equipment</td><td>A hard filter. A dumbbell athlete is never offered a barbell lift; the chip names the kit the picks actually use.</td></tr>
+        <tr><td>Experience</td><td>New in this pass: <code>ExperienceLevel</code> on the profile, asked in onboarding. The catalogue grades every exercise beginner / intermediate / expert and the pick respects it. A beginner also gets one exercise and one set fewer.</td></tr>
+        <tr><td>Goal</td><td>Chooses the theme order (build muscle opens at Gym, mobility at Flexibility) and moves the numbers: stronger is fewer reps and 30 seconds more rest, fat loss and endurance are more reps and less.</td></tr>
+        <tr><td>Age and body stats</td><td>Over 55, or a BMI of 30 or more, drops plyometrics and jumping work and says so with a "Low-impact" chip. It never shows the number or passes judgement on it.</td></tr>
+        <tr><td>Days per week</td><td>Session length: three days a week gets six exercises, six days a week gets four.</td></tr>
+        <tr><td>The last 48 hours</td><td>Muscles trained in the logged sessions are skipped while the pool has anything else — resolved through the routine that was run, and through the day of it the log names, so finishing push day does not retire the whole split.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Picks are spread deliberately: one exercise per muscle group before any group gets a second, and two exercises sharing their first two words count as the same movement, so a session never comes back as five variations of a row. Start runs it in the player without saving it; Save keeps it in the library; the circular arrow rotates to the next theme the goal allows. Building a routine by hand is still the Build screen — now opened from Start rather than from a tab.</p>
+    <h3>The catalogue, graded</h3>
+    <p>The library grew to <strong>1,443</strong> and, more usefully, every exercise now carries one of three grades — <strong>beginner, intermediate, advanced</strong>. The open sources disagreed with each other (free-exercise-db says "expert", RepDB has its own scale, the yoga poses were ungraded, and 47 rows carried no grade at all), so the vocabulary is normalised on the way in and a row without a grade is not allowed into the asset. Thirty-six exercises were written in-house to fill the ends of the ladder the open sources leave thin: supported sit-to-stands, kneeling planks, wall hinges and heel slides for someone starting out, long-lever and single-leg work for someone who is not.</p>
+    <p>The grade is a first-class filter, not a label. The builder's library splits into three shelves with a chip and a count each, and the athlete's own level carries an accent dot; the exercise library gained a Level row next to muscle, equipment and type; and the Start recommender was already filtering on it — it just could not see the "advanced" rows until the vocabularies matched.</p>
+    <p><strong>Curation is now data.</strong> The hand-graded levels and the editorial rows exist in no upstream source, so <code>tool/build_catalogue.py</code> treats <code>assets/data/exercises.json</code> as authoritative: a rerun keeps every row and field already there and only appends what the sources have added. <code>--fresh</code> throws that away deliberately.</p>
+
+    <h3>Round two, after seeing it on a phone</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>What changed</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><strong>The bar is the handoff's, exactly.</strong> The raised button is a flat accent-400 disc carrying the barbell in accent-900, ringed by 5px of the page ground and lifted by a shadow rather than a bloom, with 24 of its 58 above the hairline and "Start" in accent underneath.</td><td>The earlier version was a gradient disc with a white play triangle and a purple glow — close, but not the drawing.</td></tr>
+        <tr><td><strong>Build your routine sits above Picked for you</strong> in the Start sheet, with its own accent tile and a chevron.</td><td>Somebody who opened Start to build already knows what they want; making them scroll past a suggestion to reach it is backwards.</td></tr>
+        <tr><td><strong>Any exercise can be a goal.</strong> "Make this a goal" on the exercise page (and an <em>An exercise</em> row in Set a goal, which opens the library in picking mode) asks what it is counted in — reps, a hold, or load — and the number, then the goal lands on the Me card carrying the movement's own thumbnail. <code>PersonalGoal.exerciseId</code> is what makes that possible.</td><td>Goals were four presets and a sentence. A goal that points at a catalogue exercise is one the app can actually recognise you training.</td></tr>
+        <tr><td><strong>The builder's library answers a tap.</strong> A tile already on the timeline takes an accent ring, a check badge that becomes ×2 and ×3, an accent title and a line reading "On the timeline · tap to add again".</td><td>Tapping used to add a row to a card that may have scrolled out of view, so the tile itself looked inert. No animation here on purpose — a tween inside these drag-enabled tiles is what stuck half-way in v0.7.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Community</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>What</th><th>What ships</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td>The bar</td><td><strong>Me · ▶ Start · Community</strong>, which is the handoff's own bar. Build moved behind Start; Friends is still the pill at the top of Me.</td><td><code>app/router.dart</code></td></tr>
+        <tr><td>AI coach</td><td>The always-on card above both tabs, straight into the coach that already knows the athlete's body, gear and diet.</td><td><code>features/community/</code> · <code>/coach</code></td></tr>
+        <tr><td>Studios</td><td>Three seeded studios with real timetables: time, day, coach, length, spots and a drop-in price. Join asks first, shows the price, and says plainly that the studio takes the money at the door — SoGym never asks for card details. Booking puts the class on the plan as a session with no routine behind it (<code>ScheduledWorkout.classId</code>), and the plan row opens the booking rather than the player. Cancelling from either side removes both.</td><td><code>Studio</code>, <code>StudioClass</code>, <code>ScheduleNotifier.book</code></td></tr>
+        <tr><td>Coaches</td><td>The app's own creators, ranked by following, with the programmes they publish — three new seeded routines on top of what they have shared to the feed. Follow is the real social graph; + copies the programme into the library and puts it on the next free evening.</td><td><code>SeedData.coachProgrammes</code></td></tr>
+      </tbody>
+    </table></div>
+    <h3>Decisions worth knowing</h3>
+    <ul>
+      <li><strong>The recommender is a function, not a model.</strong> It is pure, deterministic and unit-tested against the real catalogue: gear, level, goal numbers, low-impact, muscle spread and the 48-hour rest all have a test that fails if the rule stops holding. The hosted AI coach remains the place for anything conversational.</li>
+      <li><strong>A booked class is not a routine.</strong> The studio runs the hour, so the booking carries the studio, the coach and the time and nothing pretends to be a set-by-set player.</li>
+      <li><strong>Money is named, never taken.</strong> The class price is shown because a studio timetable without prices is a lie; the app does not collect payment, and the sheet says where you pay.</li>
+      <li><strong>Two layout bugs fixed on the way.</strong> The exercise thumbnail sized itself square only when it was exactly 34px tall — any other small size forced an infinite width inside a row — and the booking sheet popped the page instead of itself because it captured the page's context.</li>
+    </ul>
+
+    <h2 id="v010">v0.10: look before you accept, and the same session at your level</h2>
+    <p>Somebody else's routine used to arrive as a name and a count. "Copy to mine" was one tap away and "Look inside" opened the <em>player</em> — so the only way to find out what a coach's programme actually asked of you was to start doing it. Two things changed: every shared routine now opens on a preview, and the preview can rebuild the session at another grade.</p>
+
+    <h3>The preview</h3>
+    <p>Everything arriving from someone else — a friend's share, a coach's programme, a post in the feed, an invite to train together — lands on <code>/routine/:id</code> first. It reads the routine against the 1,443-exercise catalogue and shows what the athlete is being asked to agree to.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>On the page</th><th>What it answers</th></tr></thead>
+      <tbody>
+        <tr><td>Author, description, tags, and a kicker that says whether this is a coach programme, a friend's share or your own routine</td><td>Who is asking, and in what capacity.</td></tr>
+        <tr><td>Days · exercises · minutes · level, then a bar showing how the exercises split across the three grades</td><td>How big it is and how hard, from the exercises themselves rather than from the title.</td></tr>
+        <tr><td>"A step above your level — you train beginner"</td><td>Where it sits relative to this athlete, in one line.</td></tr>
+        <tr><td>"Needs barbell · cable · kettlebells", and underneath, in accent, the ones they have not said they own</td><td>Whether they can actually do it on Tuesday.</td></tr>
+        <tr><td>Every exercise, in the author's order, with its thumbnail, its own grade, sets × reps, rest, muscle and kit — tap through to the exercise page</td><td>The whole thing, before accepting it. Exercises the catalogue does not know are shown and counted as ungraded, never hidden.</td></tr>
+        <tr><td><em>Start now</em> and <em>Accept</em> pinned to the bottom</td><td>Accept clones it into the library and credits the author; the button then reads "In your routines".</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>The same session, at another level</h3>
+    <p>Underneath sits the answer to "this looks too hard": three chips — Beginner, Intermediate, Advanced — with the routine's own grade marked <em>as shared</em> and the athlete's marked <em>your level</em>. Picking a different one re-levels the session on the spot. When the routine and the athlete disagree, the app offers first, without being asked: <em>"Written for intermediate athletes. Tap to see the same session with beginner movements."</em></p>
+    <p>The rule it follows is that <strong>the shape of the session belongs to its author</strong>. Same days, same order, same muscle in the same slot; only the movement in each slot changes, to one the catalogue grades at the level asked for. A swap must share a primary muscle, may never cross out of its discipline (a stretch is swapped for a stretch, never a deadlift), is scored on matching force direction, mechanic, category and equipment — kit the athlete owns scores up, kit they do not scores down — and no movement already in the routine can be swapped in twice. Sets and rest then carry the difficulty the movement cannot: a step down is one set fewer and fifteen seconds more rest, a step up the reverse. <strong>Reps are left alone</strong>, because they are the author's prescription and rewriting them turns "the same programme, easier" into a different programme.</p>
+    <p>Where the library has nothing at that grade — nothing in the catalogue is graded advanced for the forearms, so a farmer's walk has nowhere to go — the original stays and the row says so. The summary counts it: <em>"4 exercises swapped for beginner ones, 1 kept as it is."</em> Accepting an adapted version saves it under its own name with the author still credited.</p>
+
+    <h3>Decisions worth knowing</h3>
+    <ul>
+      <li><strong>The leveller is a pure function</strong> (<code>lib/core/routine_insight.dart</code>), like the recommender, and is tested against the real catalogue: every swap is graded at the target, keeps the muscle, stays inside its discipline, never repeats, and levels the same way twice.</li>
+      <li><strong>Reading a routine is separate from re-levelling it.</strong> <code>RoutineInsight</code> answers "what is this?" and is used by the preview card, the day timings and the verdict; <code>RoutineLeveller</code> answers "what would this be at another grade?".</li>
+      <li><strong>Tapping an invite no longer starts a workout.</strong> It opens the preview at the day you were invited to. A booked class has no routine behind it, so it goes back to Community instead.</li>
+      <li><strong>A long label on a block button now ellipsises</strong> rather than overflowing its row — found by the preview's "Accept beginner" button in a widget test at phone width.</li>
+    </ul>
+
+    <h2 id="stack">Why Flutter, not Kotlin</h2>
+    <p>The brief allowed either. The deciding factors were speed to two stores and the health integration.</p>
+    <div class="grid2">
+      <div class="card"><div class="tag">Chosen</div><h4>Flutter + Dart</h4><p>One codebase ships iOS, Android and a web demo. The <code>health</code> plugin wraps HealthKit and Health Connect behind one API. Riverpod for state, go_router for navigation, and hot reload makes the design iteration loop minutes, not builds.</p></div>
+      <div class="card"><div class="tag">Rejected for now</div><h4>Kotlin (Android) or KMP</h4><p>Native Kotlin means a second Swift codebase for iOS before launch, or Kotlin Multiplatform with Compose Multiplatform for iOS which is still maturing for camera, video and health APIs. Revisit if we need deep Wear OS or Android-first hardware integrations.</p></div>
+    </div>
+    <p>Trade-off accepted: Flutter's web build is a demo surface, not the product. Video playback and health data are mobile-only in production.</p>
+
+    <h2 id="arch">Architecture</h2>
+    <p>The MVP runs entirely on-device with a repository layer written so that a hosted backend swaps in without touching the UI. Every screen reads from Riverpod providers; providers talk to repositories; repositories persist to local JSON today and to Supabase tomorrow.</p>
+    <pre class="mermaid">
+flowchart LR
+  UI["Screens<br/>feed · explore · coach · breathe · me"] --> P["Riverpod providers<br/>profile · social · routines · steps · coach"]
+  P --> R1["ExerciseRepository<br/>1,443 offline + wger live"]
+  P --> R2["LocalStore<br/>JSON on device"]
+  P --> R3["StepsSource<br/>HealthKit / Health Connect"]
+  P --> R4["Coach<br/>ClaudeCoach · LocalCoach"]
+  R4 --> API["Anthropic Messages API<br/>claude-opus-5 + tools"]
+  R2 -.->|"v0.2"| BE["SoGym backend<br/>Supabase: auth · Postgres · storage · edge functions"]
+  R4 -.->|"v0.2"| BE
+    </pre>
+    <h3>Code map</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Path</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td><code>lib/core/models.dart</code></td><td>Exercise, UserProfile, Routine, Post, BreathingPattern, StepDay with JSON round-trips</td></tr>
+        <tr><td><code>lib/core/exercise_repository.dart</code></td><td>Offline catalogue search with muscle, equipment, category and allowed-equipment filters; wger client</td></tr>
+        <tr><td><code>lib/core/health_service.dart</code></td><td>StepsSource abstraction; conditional import picks the native plugin or the demo source</td></tr>
+        <tr><td><code>lib/core/ai_coach.dart</code></td><td>Claude tool loop, strict tool schemas, plan-to-routine conversion, offline coach</td></tr>
+        <tr><td><code>lib/core/social_repository.dart</code></td><td>Seed members, routines, posts, comments and notifications for the demo social graph</td></tr>
+        <tr><td><code>lib/core/social_backend.dart</code></td><td>SocialBackend interface, local and Supabase implementations, row mapping, UUID helper</td></tr>
+        <tr><td><code>lib/core/backend.dart</code>, <code>lib/core/remote_coach.dart</code></td><td>Supabase config from dart-defines, auth helpers; SSE client for the hosted coach</td></tr>
+        <tr><td><code>lib/core/video_service.dart</code></td><td>Clip picking and measuring, 60-second gate, demo and hosted uploaders (ticket, form POST or PUT)</td></tr>
+        <tr><td><code>lib/core/badge_rules.dart</code>, <code>lib/features/leagues</code></td><td>Badge catalogue and streak maths shared with the demo backend; leagues list, create/join sheet, weekly table</td></tr>
+        <tr><td><code>lib/features/video</code>, <code>creator</code>, <code>moderation</code></td><td>Video card with states and exercise chips, video composer and tag picker; public profile and creator studio; moderation queue</td></tr>
+        <tr><td><code>supabase/</code></td><td>Three migrations (social graph; video, creators, reports; leagues, streaks, badges), <code>coach</code>, <code>push</code> and <code>video</code> edge functions, shared prompt, catalogue search, provider adapters and screening</td></tr>
+        <tr><td><code>lib/core/providers.dart</code></td><td>All app state, persistence hooks, coach orchestration</td></tr>
+        <tr><td><code>lib/features/*</code></td><td>One folder per tab or flow; screens only, no business logic</td></tr>
+        <tr><td><code>android/…/AndroidManifest.xml</code>, <code>ios/Runner/Info.plist</code></td><td>Health Connect permissions and rationale activity, HealthKit usage strings and entitlement</td></tr>
+        <tr><td><code>lib/features/home/</code></td><td>v0.5 home page, + menu sheets (schedule, nearby leagues, configuration, CoG), schedule page</td></tr>
+        <tr><td><code>lib/features/friends/</code>, <code>lib/features/build/</code></td><td>Friends page (invite to a training, then the feed) and the Build flow (theme picker, drag timeline), both opened from Me and Start</td></tr>
+        <tr><td><code>lib/core/routine_insight.dart</code>, <code>lib/features/routines/routine_preview_screen.dart</code></td><td>v0.10 routine preview: reads a shared routine against the catalogue (grades, muscles, kit, minutes) and re-levels it for another grade. Pure, tested.</td></tr>
+        <tr><td><code>lib/core/recommender.dart</code>, <code>lib/features/community/</code></td><td>v0.9 session recommender (pure, tested against the catalogue) and the Community tab: studios with bookable classes, coaches with programmes, the AI coach card</td></tr>
+        <tr><td><code>lib/app/nocturne.dart</code></td><td>v0.7 Nocturne tokens, shared primitives and the Phosphor codepoints</td></tr>
+        <tr><td><code>tool/build_catalogue.py</code>, <code>tool/serve_web.py</code></td><td>Merges the three exercise sources into the bundled asset; serves the web demo with caching off</td></tr>
+        <tr><td><code>test/core_test.dart</code>, <code>test/social_test.dart</code>, <code>test/video_test.dart</code>, <code>test/leagues_test.dart</code>, <code>test/home_test.dart</code>, <code>test/home_widget_test.dart</code>, <code>test/friends_test.dart</code>, <code>test/recommender_test.dart</code>, <code>test/routine_preview_test.dart</code></td><td>Catalogue integrity, search filters, offline plan generation, diet enforcement, tool payload conversion, JSON round-trips; local social backend behaviour, row mapping, notification kinds, SSE parsing; uploaders against a mock HTTP client, report and moderation flow, demo transcode, creator stats</td></tr>
+        <tr><td><code>supabase/functions/video/provider_test.ts</code></td><td>Deno tests: webhook signature verification and replay window, Cloudflare and Mux payload mapping, frame selection</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="ai">AI coach design</h2>
+    <p>The coach is an agent with a small tool surface, not a prompt that dumps 1,443 exercises into context. That keeps each request cheap and every recommendation grounded in an exercise the app can actually render and play.</p>
+    <pre class="mermaid">
+sequenceDiagram
+  participant U as Athlete
+  participant A as App
+  participant C as Claude (claude-opus-5)
+  U->>A: "Build me a plan"
+  A->>C: system (persona, rules) + profile + tools
+  C->>A: tool_use search_exercises {muscle: chest, equipment: dumbbell}
+  A->>C: tool_result 12 ids filtered to the athlete's gear
+  C->>A: tool_use search_exercises {muscle: back …}
+  A->>C: tool_result …
+  C->>A: tool_use save_plan {days: […], nutrition_notes, weekly_step_goal}
+  A->>A: planToRoutine → Routine saved, unknown ids dropped
+  A->>C: tool_result "Saved routine … 3 days"
+  C->>A: text summary
+  A->>U: bubble + plan card (Open · Share)
+    </pre>
+    <h3>Design choices</h3>
+    <ul>
+      <li><strong>Grounding by tool, not by context.</strong> <code>search_exercises</code> applies the athlete's equipment filter server-side of the model, so the model cannot pick a barbell move for someone with dumbbells. Unknown ids in <code>save_plan</code> are dropped defensively.</li>
+      <li><strong>Strict schemas.</strong> Both tools use <code>strict: true</code> with <code>additionalProperties: false</code>, so the plan JSON always parses into a Routine. No regex over prose.</li>
+      <li><strong>Profile in the system prompt, cached.</strong> The persona block carries a <code>cache_control</code> breakpoint; the profile follows it so cache hits survive across turns.</li>
+      <li><strong>Effort tuned for chat.</strong> <code>output_config.effort: medium</code> keeps replies snappy; plan generation still runs three to five tool calls in one request.</li>
+      <li><strong>Refusal handling.</strong> A <code>stop_reason: refusal</code> returns a friendly redirect instead of a crash.</li>
+      <li><strong>Safety rules in the prompt.</strong> Pain, injury and eating-disorder cues get conservative advice and a referral. Diet restrictions are hard constraints.</li>
+      <li><strong>Always demoable.</strong> With no key, <code>LocalCoach</code> generates a split by goal and days per week from the same catalogue and answers diet questions with the same restriction logic. Tests cover it.</li>
+    </ul>
+    <div class="callout violet"><p><strong>Done in v0.2:</strong> the loop now runs in a Supabase edge function that holds the key, streams the reply, logs tool calls for evals, and enforces per-user quotas. Same tool definitions, same client UI. The on-device path with a user key remains for demos.</p></div>
+    <h3>Next for the coach</h3>
+    <ul>
+      <li>Progression memory: the coach reads completed workouts and the last plan, then proposes weight and rep increases.</li>
+      <li>Weekly check-in: a scheduled run every Sunday that reads steps and workouts and posts a private recap with one adjustment.</li>
+      <li>Eval set: 40 profiles × 5 prompts scored on gear compliance, diet compliance, day count, and exercise validity. Gate every prompt change on it.</li>
+    </ul>
+
+    <h2 id="data">Open-source data and licensing</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Source</th><th>Used for</th><th>License</th><th>Obligation</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://github.com/yuhonas/free-exercise-db">free-exercise-db</a></td><td>Bundled catalogue: names, muscles, equipment, level, instructions, 2 images each</td><td>Unlicense (public domain)</td><td>None. Images served from the project CDN; mirror to our own storage before launch.</td></tr>
+        <tr><td><a href="https://wger.de">wger</a></td><td>Live community exercises via <code>/api/v2/exerciseinfo</code></td><td>Code AGPL-3.0, content CC-BY-SA 4.0</td><td>Attribute wger on exercise pages; share adapted content alike. We consume the API, we do not embed AGPL code.</td></tr>
+        <tr><td>Apple HealthKit, Google Health Connect</td><td>Step counts, read-only</td><td>Platform terms</td><td>Privacy policy link in Health Connect, HealthKit usage strings, no ads targeting from health data.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Nightly sync of wger into our Postgres, merged with free-exercise-db by name similarity, gives one catalogue with community edits and our own video overlays.</p>
+
+    <h2 id="market">Market and positioning</h2>
+    <h3>Who it is for</h3>
+    <div class="grid2">
+      <div class="card"><div class="tag">Primary</div><h4>The social lifter, 22 to 35</h4><p>Trains 3 to 5 times a week, already screenshots Hevy or Strong to a group chat, follows fitness creators, wants friends to copy their split.</p></div>
+      <div class="card"><div class="tag">Secondary</div><h4>The step chaser, 30 to 55</h4><p>Owns a watch or uses the phone's step count, competes with colleagues, not a gym person yet. Enters through the steps wedge and discovers bodyweight and mobility routines.</p></div>
+      <div class="card"><div class="tag">Supply side</div><h4>The micro-creator coach</h4><p>Personal trainers and calisthenics or yoga instructors with 2k to 50k followers who need a place where their routines are executable, not just watchable.</p></div>
+      <div class="card"><div class="tag">Emerging</div><h4>The restricted eater</h4><p>Vegan, kosher, halal, keto, allergy. Diet-aware recommendations are rare and highly shareable within these communities.</p></div>
+    </div>
+    <h3>Competitive map</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>App</th><th>Great at</th><th>Gap SoGym exploits</th></tr></thead>
+      <tbody>
+        <tr><td>Strava</td><td>Social for endurance, segments, clubs</td><td>No gym, no routines, no AI, weak for walkers</td></tr>
+        <tr><td>Hevy, Strong</td><td>Set logging, PR tracking</td><td>Social is an afterthought, no plan generation, no diet, no breathing</td></tr>
+        <tr><td>Fitbod, Freeletics</td><td>Generated plans</td><td>Single-player, closed catalogues, no sharing loop</td></tr>
+        <tr><td>Instagram, TikTok</td><td>Hot workout video reach</td><td>Nothing is executable; no steps, no plan</td></tr>
+        <tr><td>Apple Fitness+, Peloton</td><td>Produced video classes</td><td>Expensive, brand-owned content, no user routines</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout mint"><p><strong>Positioning statement:</strong> For people who train and want company, SoGym is the social fitness app where every post is a workout you can do, unlike Strava which only counts miles and unlike Hevy which only counts sets.</p></div>
+
+    <h2 id="gtm">Go-to-market</h2>
+    <h3>Growth loops built into the product</h3>
+    <ol>
+      <li><strong>Routine share loop.</strong> A routine card renders as a branded image with a deep link. Try it opens the app, or the store. Creator gets a "12 people tried your routine" notification.</li>
+      <li><strong>Steps challenge loop.</strong> Weekly step leagues of 5 to 20 people. Invite by link. The league needs friends, so users bring them.</li>
+      <li><strong>Coach plan loop.</strong> "My AI coach built me this" posts show the plan and the athlete's goal. Readers with the same goal tap Build mine.</li>
+    </ol>
+    <h3>Launch sequence</h3>
+    <ul class="timeline">
+      <li class="done"><span class="when">Now</span><b>Private alpha, 50 users</b><p>Friends, two gyms, one running club. Goal: 30 percent of users post in week one. Fix onboarding drop-off.</p></li>
+      <li><span class="when">Month 2</span><b>Creator seeding, 25 micro-creators</b><p>Import their routines, give them a creator badge and analytics (built in v0.3). Their audiences arrive with executable content already waiting.</p></li>
+      <li><span class="when">Month 3</span><b>Public beta on TestFlight and Play open testing</b><p>Steps leagues as the headline (built in v0.4). Campaign: "Your steps have a leaderboard now."</p></li>
+      <li><span class="when">Month 5</span><b>Store launch</b><p>Launch asset: the "Weird routines" showcase, a UGC series designed for short-form video. Weird is shareable.</p></li>
+    </ul>
+    <h3>Channels ranked by expected CAC</h3>
+    <ol>
+      <li>Creator-imported routines with deep links (near zero CAC, compounding).</li>
+      <li>Short-form video of weird and hot routines with the SoGym card overlay.</li>
+      <li>Gym partnerships: a QR on the wall that opens the gym's routine collection.</li>
+      <li>Paid social only after retention passes 35 percent at day 30.</li>
+    </ol>
+
+    <h2 id="money">Monetization</h2>
+    <p>Changed in v0.5. Individuals never pay and never hit a limit. The people who pay are the ones who run other people's training: studios, clubs, gyms and personal trainers, who get tools to manage groups on top of the same free app their members already use. An open-source core keeps the free promise credible and makes the app easy to trust with health data.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Line</th><th>What</th><th>Price</th><th>When</th></tr></thead>
+      <tbody>
+        <tr><td>Individuals</td><td>Everything: feed, routines, steps, streaks, leagues, quests, breathing, unlimited AI trainer, no ads</td><td class="num">$0, always</td><td>now</td></tr>
+        <tr><td>Trainer</td><td>Client roster, assign routines and schedules to clients, see their week, group quests, coach notes fed to the client's AI trainer</td><td class="num">$19 / mo per trainer</td><td>v1.0</td></tr>
+        <tr><td>Studio and club</td><td>Branded collections, member leagues with the club as owner, class schedule members can add to their calendar, attendance and engagement dashboard, multiple trainer seats</td><td class="num">$49 / mo per location</td><td>v1.1</td></tr>
+        <tr><td>Creator programs</td><td>Paid routine packs and coaching groups; platform keeps 15 percent</td><td class="num">Creator sets $5 to $30</td><td>v1.2</td></tr>
+      </tbody>
+    </table></div>
+    <p>Unit economics guardrail: an active individual who sends 40 trainer messages a month costs roughly 40 cents in model spend with prompt caching and medium effort. One studio seat covers about a hundred such users, so the free tier stays affordable as long as roughly one in a hundred active users belongs to a paying studio or trainer; hosted coach calls degrade to the on-device or offline coach rather than a paywall if that ratio slips.</p>
+
+    <h2 id="roadmap">Roadmap</h2>
+    <ul class="timeline">
+      <li class="done"><span class="when">v0.1 · shipped</span><b>On-device MVP</b><p>Everything in this report. Demoable on iOS, Android and web without a backend.</p></li>
+      <li class="done"><span class="when">v0.2 · built</span><b>Real social graph</b><p>Supabase auth (Apple, Google, email), Postgres for users, follows, posts, routines, likes, recommends, comments, notifications. Coach in an edge function with streaming and quotas. Push relay function; device token registration pending. Needs a provisioned project to go live.</p></li>
+      <li class="done"><span class="when">v0.3 · built</span><b>Video and creators</b><p>Direct upload to Cloudflare Stream or Mux with a 60-second cap, webhook-driven ready state, exercise tagging, public profiles, creator studio with analytics, report flow, moderation queue, Claude screening of every clip. Needs provider keys to go live.</p></li>
+      <li class="done"><span class="when">v0.4 · built</span><b>Steps leagues and streaks</b><p>Weekly leagues with invite codes and a Monday close, sync on open and resume, step and workout streaks, twelve badges. Complications and closed-app background sync deferred to native work.</p></li>
+      <li class="done"><span class="when">v0.10 · built</span><b>Look before you accept</b><p>Every shared routine — a friend's, a coach's, an invite — opens on a preview: every exercise with its own grade, the level mix, the minutes, the kit you do not own. The level switcher rebuilds the same session at another grade, swapping each movement for one the library grades there while keeping the author's days, order and muscles.</p></li>
+      <li class="done"><span class="when">v0.9 · built</span><b>Picked for you and Community</b><p>1,443 exercises, every one graded beginner / intermediate / advanced and filterable by it. Start opens with a session assembled from the profile — gear, experience, goal, age, days per week and the last 48 hours — and the third tab is Community: studios with bookable classes, coaches with programmes, and the AI coach above both.</p></li>
+      <li class="done"><span class="when">v0.8 · built</span><b>Start button and Friends</b><p>Me · ▶ · Build, with the handoff's raised Start button. Friends moved to the top of Me and rebuilt in Nocturne, invite-to-a-training first, feed second. Training invites ride on the scheduled session.</p></li>
+      <li class="done"><span class="when">v0.7 · in progress</span><b>Nocturne design system</b><p>Token layer plus shared primitives; Me, Build, Friends and the schedule sheet rebuilt to the handoff. The handoff's other screens still to migrate.</p></li>
+      <li class="done"><span class="when">v0.6 · built</span><b>Three tabs and a bigger library</b><p>Me · Friends · Build. Goal-first routine builder, friends' routines copyable in one tap, catalogue merged to 1,407 exercises with real yoga, cardio and mobility.</p></li>
+      <li class="done"><span class="when">v0.5 · built</span><b>User-first home</b><p>Profile-first front door with photo, step goal and streak, + menu (schedule a workout, join a league nearby, change configuration, CoG together), AI trainer on the home page. Free for individuals; studios, clubs and trainers are the paying side.</p></li>
+      <li><span class="when">v0.7 · 3 weeks</span><b>Coach memory and progression</b><p>Trainer reads workout history and the schedule, proposes progressive overload, Sunday check-in via scheduled run, eval suite gating prompt changes. Hosted quests (invite accept flow, friend's counter from <code>step_days</code>).</p></li>
+      <li><span class="when">v1.0 · month 5</span><b>Store launch and Trainer plan</b><p>Trainer seats with client roster and assigned schedules, localization for 5 languages, accessibility pass, App Store and Play listings, open-source the core.</p></li>
+      <li><span class="when">Later</span><b>Bigger bets</b><p>Nutrition logging with photo estimation, form check from video, live group workouts, gym partner integrations, an open routine format others can export to.</p></li>
+    </ul>
+
+    <h2 id="risks">Risks and mitigations</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Risk</th><th>Why it matters</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td>Empty-feed cold start</td><td>Social apps die without content on day one</td><td>Seeded community, creator imports before public beta, coach plans are shareable content from minute one</td></tr>
+        <tr><td>Health data privacy and store review</td><td>HealthKit and Health Connect reviews are strict</td><td>Read-only STEPS, nothing leaves the device until a share tap, privacy policy activity wired, no health-based ad targeting</td></tr>
+        <tr><td>Bad or unsafe AI advice</td><td>Fitness and diet advice carries liability</td><td>Conservative prompt rules, restriction enforcement in code, disclaimers, eval suite, human review of flagged conversations</td></tr>
+        <tr><td>Model cost at scale</td><td>Free-tier chat could burn cash</td><td>Prompt caching, medium effort, 5 free messages a week, tool grounding keeps context small</td></tr>
+        <tr><td>Video moderation</td><td>UGC video invites abuse</td><td>Built in v0.3: creators-only uploads, Claude screening of every clip, report flow, auto-hide at three reports, moderator queue with an action log</td></tr>
+        <tr><td>License compliance</td><td>wger content is CC-BY-SA</td><td>Attribution on every wger exercise, share-alike honoured for derived content, legal review before v1.0</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="kpis">KPIs that decide the next round</h2>
+    <div class="tbl"><table class="kpi">
+      <thead><tr><th>Metric</th><th>Target at public beta</th><th>Why this one</th></tr></thead>
+      <tbody>
+        <tr><td>Day-1 post rate</td><td class="num">≥ 30%</td><td>Proves the steps wedge removes the blank-page problem</td></tr>
+        <tr><td>Try-it rate per routine post</td><td class="num">≥ 8%</td><td>The core loop: content that gets executed</td></tr>
+        <tr><td>Day-30 retention</td><td class="num">≥ 35%</td><td>Gate for any paid acquisition</td></tr>
+        <tr><td>Weekly workouts logged per active user</td><td class="num">≥ 2.0</td><td>Usefulness, not vanity</td></tr>
+        <tr><td>Coach plan save rate</td><td class="num">≥ 60%</td><td>Plan quality as judged by users, not by us</td></tr>
+        <tr><td>K-factor from routine and league invites</td><td class="num">≥ 0.4</td><td>Growth loops are working before launch spend</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="run">Run it</h2>
+    <pre>cd sogym
+flutter pub get
+flutter run -d chrome        # web demo: steps use demo data, video plays muted
+flutter run -d ios           # HealthKit: enable the HealthKit capability in Xcode once
+flutter run -d android       # Health Connect: needs the Health Connect app on the device
+flutter test                 # 93 tests: catalogue, coaches, social backend, video, moderation, streaks, badges, leagues, schedule, quests, home page, training invites, the session recommender, class bookings, catalogue grading, exercise goals, the routine preview and the level swap
+
+# hosted backend (v0.2)
+supabase link --project-ref &lt;ref&gt; &amp;&amp; supabase db push
+supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
+supabase functions deploy coach
+supabase functions deploy push --no-verify-jwt   # plus a DB webhook: insert on notifications
+flutter run --dart-define=SUPABASE_URL=https://&lt;ref&gt;.supabase.co --dart-define=SUPABASE_KEY=&lt;publishable key&gt;
+
+# video (v0.3): pick a provider, deploy the function, register its webhook once
+supabase secrets set VIDEO_PROVIDER=cloudflare CF_ACCOUNT_ID=... CF_STREAM_TOKEN=... CF_WEBHOOK_SECRET=...
+#   or VIDEO_PROVIDER=mux MUX_TOKEN_ID=... MUX_TOKEN_SECRET=... MUX_WEBHOOK_SECRET=...
+supabase functions deploy video --no-verify-jwt
+#   Cloudflare: PUT /accounts/{id}/stream/webhook {notificationUrl: .../functions/v1/video/webhook}
+#   Mux: dashboard → Webhooks → .../functions/v1/video/webhook
+# first moderator: update profiles set moderator = true where handle = 'you';
+cd supabase/functions && deno test video/provider_test.ts
+
+# leagues (v0.4): pg_cron closes the week on Mondays; run by hand as a moderator with
+#   select public.close_week();</pre>
+    <p>To use the Claude coach, open Me → Settings and paste an Anthropic API key. Without a key the offline coach answers, which is enough to walk the whole product.</p>
+    <p>Known limits: without a configured project the social graph stays on-device (seeded) and uploads are simulated; the Supabase project, Apple and Google OAuth credentials, the Firebase client for push tokens and a Cloudflare Stream or Mux account still need provisioning; seeded clips are placeholder videos; the Android toolchain on this machine needs a working JDK 17 before an APK build.</p>
+
+    <footer>SoGym v0.10.0 · built 2026-09-05 · exercise data from free-exercise-db (Unlicense) and wger (CC-BY-SA) · coach on Claude via the Anthropic Messages API</footer>
+  </main>
+</div>

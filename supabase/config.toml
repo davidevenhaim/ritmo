@@ -1,0 +1,49 @@
+# Supabase CLI project config for SoGym.
+# `supabase start` runs the stack locally; `supabase link` + `supabase db push`
+# applies migrations to the hosted project.
+project_id = "sogym"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public"]
+max_rows = 200
+
+[db]
+port = 54322
+major_version = 17
+
+[auth]
+site_url = "io.sogym://login-callback"
+additional_redirect_urls = ["http://localhost:3000", "io.sogym://login-callback"]
+jwt_expiry = 3600
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = false
+
+# Apple and Google sign-in. Client ids and secrets come from the dashboard or
+# `supabase secrets`; never commit them.
+[auth.external.apple]
+enabled = true
+client_id = "env(SUPABASE_AUTH_APPLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_APPLE_SECRET)"
+
+[auth.external.google]
+enabled = true
+client_id = "env(SUPABASE_AUTH_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_GOOGLE_SECRET)"
+skip_nonce_check = true
+
+[functions.coach]
+verify_jwt = true
+
+[functions.push]
+verify_jwt = false
+
+# Provider webhooks carry no user JWT; /create validates the caller itself.
+[functions.video]
+verify_jwt = false
