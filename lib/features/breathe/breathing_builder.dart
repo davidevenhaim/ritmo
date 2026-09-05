@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/nocturne.dart';
 import '../../core/models.dart';
 import '../../core/providers.dart';
+import 'breathe_screen.dart' show RhythmBar;
 
 /// Build your own pattern (v0.13): in for x, hold for y, out for z, hold for
 /// w, that many times.
@@ -110,21 +111,26 @@ class _BreathingBuilderState extends ConsumerState<_BreathingBuilder> {
                   borderRadius: BorderRadius.circular(Noc.rControl),
                   border: Border.all(color: Noc.accent700),
                 ),
-                child: Row(children: [
-                  const Icon(Nx.clock, size: 15, color: Noc.accent300),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(
-                        preview.rhythm,
-                        key: const Key('builderRhythm'),
-                        style: const TextStyle(fontFamily: 'Inter', fontSize: 13, fontVariations: Noc.w500, color: Noc.accent200),
-                      ),
-                      const SizedBox(height: 1),
-                      Text('$_cycles rounds of ${preview.cycleSeconds}s', style: Noc.small),
-                    ]),
-                  ),
-                  Text(preview.clock, key: const Key('builderClock'), style: Noc.statSm.copyWith(color: Noc.accent200)),
+                child: Column(children: [
+                  Row(children: [
+                    const Icon(Nx.clock, size: 15, color: Noc.accent300),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Text(
+                          preview.rhythm,
+                          key: const Key('builderRhythm'),
+                          style: const TextStyle(fontFamily: 'Inter', fontSize: 13, fontVariations: Noc.w500, color: Noc.accent200),
+                        ),
+                        const SizedBox(height: 1),
+                        Text('$_cycles rounds of ${preview.cycleSeconds}s', style: Noc.small),
+                      ]),
+                    ),
+                    Text(preview.clock, key: const Key('builderClock'), style: Noc.statSm.copyWith(color: Noc.accent200)),
+                  ]),
+                  const SizedBox(height: 11),
+                  // The shape of the breath you are building, drawn to scale.
+                  RhythmBar(pattern: preview),
                 ]),
               ),
               const SizedBox(height: 14),

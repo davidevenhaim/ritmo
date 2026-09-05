@@ -224,9 +224,11 @@ void main() {
       expect(find.text('EXERCISES'), findsOneWidget);
       expect(find.text('LEVEL'), findsOneWidget);
       expect(find.textContaining('you train beginner'), findsOneWidget);
-      // Every exercise is on the page, with its own grade next to it.
+      // Every exercise is on the page, with its own grade next to it. The
+      // first four also name themselves in the hero grid at the top, so a
+      // movement can legitimately be on the page twice.
       for (final item in SeedData.pullStrength.days.first.items) {
-        expect(find.text(item.exerciseName), findsOneWidget);
+        expect(find.text(item.exerciseName), findsWidgets);
       }
       expect(find.text('Beginner'), findsWidgets);
       expect(find.text('Accept'), findsOneWidget);
@@ -267,7 +269,7 @@ void main() {
       expect(find.textContaining('swapped for beginner ones'), findsOneWidget);
       expect(find.textContaining('Swapped for Pullups'), findsOneWidget);
       expect(find.text('Accept beginner'), findsOneWidget);
-      expect(find.text('Pullups'), findsNothing, reason: 'the intermediate movement is gone from the list');
+      expect(find.text('Pullups'), findsNothing, reason: 'the intermediate movement is gone from the list and the grid');
 
       // Picking the grade it was shared at is how you get the author's own
       // version back.
@@ -275,7 +277,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 400));
 
       expect(find.textContaining('swapped for'), findsNothing);
-      expect(find.text('Pullups'), findsOneWidget);
+      expect(find.text('Pullups'), findsWidgets, reason: 'back in the list, and in the hero grid');
       expect(find.text('Accept'), findsOneWidget);
     });
 

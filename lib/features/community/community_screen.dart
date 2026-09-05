@@ -462,18 +462,21 @@ class _CoachRoutineRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) => GestureDetector(
     behavior: HitTestBehavior.opaque,
-    // The row opens the programme; the + is the shortcut for someone who
-    // has already looked inside once.
-    onTap: () => context.push('/routine/${routine.id}', extra: routine),
+    // The row is the session: tapping it starts the workout. Looking inside
+    // first — every exercise, the level switcher, saving it — is what "View
+    // more" opens.
+    onTap: () => context.push('/workout/${routine.id}', extra: routine),
     child: Container(
-      padding: const EdgeInsets.fromLTRB(11, 10, 8, 10),
+      padding: const EdgeInsets.fromLTRB(10, 9, 9, 9),
       decoration: BoxDecoration(color: Noc.sunken, borderRadius: BorderRadius.circular(Noc.rRow)),
       child: Row(
         children: [
           Container(
-            width: 3,
-            height: 28,
-            decoration: BoxDecoration(color: Noc.accent, borderRadius: BorderRadius.circular(2)),
+            width: 32,
+            height: 32,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(color: Noc.accent800, borderRadius: BorderRadius.circular(Noc.rIcon)),
+            child: const Icon(Nx.play, size: 14, color: Noc.accent200),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -481,47 +484,27 @@ class _CoachRoutineRow extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(routine.name, style: Noc.rowTitle, maxLines: 1, overflow: TextOverflow.ellipsis),
-                Text('${routine.exerciseCount} exercises · $minutes min', style: Noc.small),
+                const SizedBox(height: 1),
+                Text(
+                  '${routine.exerciseCount} exercises · $minutes min${added ? ' · saved' : ''}',
+                  style: Noc.small,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),
           const SizedBox(width: 8),
-          NocIconButton(
-            icon: added ? Nx.check : Nx.plus,
-            size: 32,
-            outlined: true,
-            color: added ? Noc.accent300 : Noc.accent,
-            tooltip: added ? 'Already in your routines' : 'Add to my week',
-            onTap: () => added ? nocToast(context, 'Already in your routines.') : _add(context, ref),
+          NocButton(
+            label: 'View more',
+            primary: false,
+            dense: true,
+            onTap: () => context.push('/routine/${routine.id}', extra: routine),
           ),
         ],
       ),
     ),
   );
-
-  /// Copy the programme in and put it on the next free evening, which is what
-  /// the handoff's + does: the athlete leaves Community with a plan, not a
-  /// bookmark.
-  Future<void> _add(BuildContext context, WidgetRef ref) async {
-    final me = ref.read(profileProvider)!;
-    final copy = await ref.read(routinesProvider.notifier).clone(routine, me);
-    final at = _nextFreeSlot(ref.read(scheduleProvider));
-    await ref.read(scheduleProvider.notifier).add(routine: copy, dayIndex: 0, at: at);
-    if (!context.mounted) return;
-    nocToast(context, '${routine.name} added to ${DateFormat('EEEE').format(at)}.');
-  }
-
-  static DateTime _nextFreeSlot(List<ScheduledWorkout> schedule) {
-    final now = DateTime.now();
-    for (var i = 1; i <= 7; i++) {
-      final day = now.add(Duration(days: i));
-      final at = DateTime(day.year, day.month, day.day, 18);
-      if (schedule.every((s) => !s.isOn(at))) return at;
-    }
-    final t = now.add(const Duration(days: 1));
-    return DateTime(t.year, t.month, t.day, 18);
-  }
 }
 
-/// "12.4k" — follower counts on a coach card.
 String compactCount(int n) => n >= 1000 ? '${(n / 1000).toStringAsFixed(n >= 10000 ? 0 : 1)}k' : '$n';
